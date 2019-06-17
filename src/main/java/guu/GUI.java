@@ -16,6 +16,8 @@ public class GUI {
     private static final Font mainFont = new Font("Arial", Font.PLAIN, 18);
 
     private Resources resources;
+    private Executor executor;
+
     private JFrame frm;
     private JButton startBtn;
     private JButton stopBtn;
@@ -27,8 +29,9 @@ public class GUI {
 
     private JTextArea codeArea;
 
-    public GUI(Resources resources) {
+    public GUI(Resources resources, Executor executor) {
         this.resources = resources;
+        this.executor = executor;
 
         frm = new JFrame("Guu");
         frm.setIconImage(resources.getImage("logo"));
@@ -70,9 +73,7 @@ public class GUI {
         runPane = new JPanel();
         runPane.setLayout(new BorderLayout());
         runPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-        //Тестовый код!!!
-        runPane.add(new JLabel("Панель запуска приложения"));
+        runPane.add(executor.getVisualComponent(), BorderLayout.CENTER);
 
         workPane.add(editorPane, EDITOR_PANE);
         workPane.add(runPane, RUN_PANE);
