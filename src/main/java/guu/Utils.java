@@ -51,8 +51,15 @@ public class Utils {
         String numbers = "0123456789";
         String letters = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        //Первый символ не можетбыть цифрой
+        //Первый символ не может быть цифрой
         if (numbers.indexOf(name.substring(0, 1)) != (-1)) return false;
+
+        //Имя не может быть ключевым словом
+        try {
+            ReservedWords.valueOf(name.toLowerCase());
+            return false;
+        } catch (IllegalArgumentException e) {
+        }
 
         //Имя может содержать только буквы, цифры и знак подчеркивания
         for (char c : name.toCharArray()) {
