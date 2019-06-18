@@ -3,6 +3,7 @@ package guu;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static guu.ReservedWords.*;
 
@@ -39,7 +40,14 @@ public class Executor {
         ArrayList<String> codeLines = Utils.getCodeLines(codeString);
 
         //Первая проверка правильности: код должен содержать хотя бы одну строку
-        if (codeLines.size()==0){
+        boolean findNotEmptyLine = false;
+        for (String line : codeLines) {
+            if (!line.equals("")) {
+                findNotEmptyLine = true;
+                break;
+            }
+        }
+        if (!findNotEmptyLine) {
             String errMessage = "Текст программы не содержит ни одной строки...";
             context.getErr().add(errMessage);
             outputArea.append(errMessage);
@@ -48,6 +56,26 @@ public class Executor {
 
         //Добавляем строки кода в текущий контекст
         context.getCode().addAll(codeLines);
+
+        //Получаем имена и адреса всех функций
+        try {
+            HashMap<String, Integer> subs = Utils.getSubList(context.getCode());
+            context.setSubs(subs);
+        } catch (Exception e) {
+            context.getErr().add(e.getMessage());
+            outputArea.append(e.getMessage());
+            return;
+        }
+
+        //Получаем адрес функции main
+        Integer pointer = context.getSubs().get("main");
+        if (pointer == null) {
+            String errMessage = "Процедура main не найдена";
+            context.getErr().add(errMessage);
+            outputArea.append(errMessage);
+            return;
+        }
+
     }
 
     public JPanel getVisualComponent() {

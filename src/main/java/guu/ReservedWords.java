@@ -1,13 +1,13 @@
 package guu;
 
-import guu.Commands.Command;
+import guu.Commands.*;
 
 public enum ReservedWords {
 
-    sub(null),
-    set(null),
-    print(null),
-    call(null);
+    sub(new SubCommand()),
+    set(new SetCommand()),
+    print(new PrintCommand()),
+    call(new CallCommand());
 
     private Command command;
 
