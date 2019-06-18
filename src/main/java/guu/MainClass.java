@@ -6,11 +6,13 @@ public class MainClass {
 
     private static Resources resources;
     private static Executor executor;
+    private static Context context;
     private static GUI gui;
 
     public static void main(String[] args) {
         resources = new Resources();
-        executor = new Executor();
+        context = new Context();
+        executor = new Executor(context);
 
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
@@ -23,8 +25,6 @@ public class MainClass {
             JOptionPane.showMessageDialog(null, "Не удалось запустить графический интерфейс", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-
     }
 
 }

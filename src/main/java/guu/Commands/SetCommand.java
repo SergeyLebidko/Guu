@@ -1,0 +1,12 @@
+package guu.Commands;
+
+import guu.Context;
+
+public class SetCommand implements Command{
+
+    @Override
+    public void execute(String line, Context context) {
+        System.out.println("Выполнение set");
+    }
+
+}

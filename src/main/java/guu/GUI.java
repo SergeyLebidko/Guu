@@ -92,6 +92,7 @@ public class GUI {
                 stopBtn.setEnabled(true);
                 startBtn.setEnabled(false);
                 workPaneLayout.show(workPane, RUN_PANE);
+                executor.start(codeArea.getText());
             }
         });
 
