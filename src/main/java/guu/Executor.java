@@ -5,8 +5,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static guu.ReservedWords.*;
-
 public class Executor {
 
     private static final Font mainFont = new Font("Arial", Font.PLAIN, 18);
@@ -29,10 +27,25 @@ public class Executor {
         contentPane.add(new JScrollPane(outputArea));
     }
 
+    public JPanel getVisualComponent() {
+        return contentPane;
+    }
+
     public void start(String codeString) {
         //Очищаем область вывода результатов работы программы
         outputArea.setText("");
 
+        //Подготавливаем контекст
+        prepareContext(codeString);
+
+        //Выполняем вызов функции main
+        executeLine("call main");
+
+        //Запускаем метод, посторочно выполняющий код
+        executCode();
+    }
+
+    private void prepareContext(String codeString) {
         //Инициализируем текущий контекст выполнения
         context.init();
 
@@ -57,7 +70,7 @@ public class Executor {
         //Добавляем строки кода в текущий контекст
         context.getCode().addAll(codeLines);
 
-        //Получаем имена и адреса всех функций
+        //Получаем имена и адреса всех функций и добавляем их в контекст выполнения
         try {
             HashMap<String, Integer> subs = Utils.getSubList(context.getCode());
             context.setSubs(subs);
@@ -66,24 +79,14 @@ public class Executor {
             outputArea.append(e.getMessage());
             return;
         }
-
-        //Получаем адрес функции main
-        Integer pointer = context.getSubs().get("main");
-        if (pointer == null) {
-            String errMessage = "Процедура main не найдена";
-            context.getErr().add(errMessage);
-            outputArea.append(errMessage);
-            return;
-        }
-
     }
 
-    public JPanel getVisualComponent() {
-        return contentPane;
+    private void executCode() {
+        //Цикл перебора команд программы
     }
 
-    public Context getContext() {
-        return context;
+    private void executeLine(String line) {
+        //Выполнение команды из строки line
     }
 
 }

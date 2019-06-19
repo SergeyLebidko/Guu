@@ -2,6 +2,7 @@ package guu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Context {
 
@@ -9,6 +10,7 @@ public class Context {
     private ArrayList<String> err;                    //Список ошибок
     private HashMap<String, Integer> vars;            //Массив имен переменных и их значений
     private HashMap<String, Integer> subs;            //Массив имен процедур и их адресов
+    private LinkedList<StackElement> stack;           //Стек вызовов процедур
 
     public Context() {
         code = new ArrayList<>();
@@ -21,6 +23,7 @@ public class Context {
         code.clear();
         err.clear();
         vars.clear();
+        stack.clear();
         subs = null;
     }
 
@@ -32,6 +35,14 @@ public class Context {
         return err;
     }
 
+    public HashMap<String, Integer> getVars() {
+        return vars;
+    }
+
+    public LinkedList<StackElement> getStack() {
+        return stack;
+    }
+
     public HashMap<String, Integer> getSubs() {
         return subs;
     }
@@ -39,4 +50,5 @@ public class Context {
     public void setSubs(HashMap<String, Integer> subs) {
         this.subs = subs;
     }
+
 }

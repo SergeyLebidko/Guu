@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class UtilsTest {
 
-    @org.junit.Test
+    @Test
     public void checkName() {
         String[] lines = {
                 "1func",
