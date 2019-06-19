@@ -27,17 +27,17 @@ public class Utils {
         int numLine = -1;
         for (String line : code) {
             numLine++;
-            if (line.toLowerCase().startsWith("sub ")) {
+            if (line.startsWith("sub ")) {
                 //Получаем имя процедуры и проверяем его на правильность
                 name = line.substring(4);
                 name = name.trim();
                 nameValid = checkName(name);
                 if (nameValid) {
                     if (subs.put(name, numLine) != null) {
-                        throw new Exception("Имя процедуры дублируется. Строка: " + numLine);
+                        throw new Exception("Имя процедуры " + name + " дублируется. Строка: " + numLine);
                     }
                 } else {
-                    throw new Exception("Недопустмое имя процедуры. Строка: " + numLine);
+                    throw new Exception("Недопустмое имя процедуры:" + name + " Строка: " + numLine);
                 }
             }
         }

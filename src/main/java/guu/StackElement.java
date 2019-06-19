@@ -18,10 +18,6 @@ public class StackElement {
         return pointer;
     }
 
-    public void setPointer(Integer pointer) {
-        this.pointer = pointer;
-    }
-
     public void shiftPointer(){
         pointer++;
     }

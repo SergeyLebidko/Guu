@@ -23,6 +23,7 @@ public class Executor {
         outputArea = new JTextArea();
         outputArea.setFont(mainFont);
         outputArea.setEditable(false);
+        context.setOutputArea(outputArea);
 
         contentPane.add(new JScrollPane(outputArea));
     }
@@ -39,10 +40,17 @@ public class Executor {
         prepareContext(codeString);
 
         //Выполняем вызов функции main
-        executeLine("call main");
+        try {
+            executeLine("call main");
+        } catch (Exception e) {
+            String errMessage = "Процедура main не найдена...";
+            context.getErr().add(errMessage);
+            outputArea.append(errMessage);
+            return;
+        }
 
         //Запускаем метод, посторочно выполняющий код
-        executCode();
+        executeCode();
     }
 
     private void prepareContext(String codeString) {
@@ -81,12 +89,56 @@ public class Executor {
         }
     }
 
-    private void executCode() {
+    private void executeCode() {
+        String line;
+
         //Цикл перебора команд программы
+        while (true) {
+
+            //Если стек пуст - программа завершается
+            if (context.isEmptyStack()) {
+                outputArea.append("Выполнение завершено...");
+                break;
+            }
+
+            //Получаем следующую строку кода
+            line = context.getNextCodeLine();
+
+            //Если получен null - поднимаемся вверх по стеку к вызывавшей процедуре
+            if (line == null) {
+                context.removeLastStackElement();
+                continue;
+            }
+
+            //Если получена пустая строка - просто игнорируем её
+            if (line.equals("")) {
+                continue;
+            }
+
+            //В противном случае - пытаемся выполнить строку кода. В случае возникновения ошибки, прерываем выполнение программы
+            try {
+                executeLine(line);
+            } catch (Exception e) {
+                String errMessage = "Ошибка. Процедура: " + context.getCurrentSubName() + " Строка: " + context.getCurrentPointer() + " " + e.getMessage();
+                context.getErr().add(errMessage);
+                outputArea.append(errMessage);
+                break;
+            }
+        }
     }
 
-    private void executeLine(String line) {
-        //Выполнение команды из строки line
+    private void executeLine(String line) throws Exception {
+        //Получаем оператор строки
+        String command = line.split(" ")[0];
+
+        ReservedWords word = null;
+        try {
+            word = ReservedWords.valueOf(command);
+        } catch (IllegalArgumentException ex) {
+            throw new Exception("Неизвестная команда " + command);
+        }
+
+        word.execute(line, context);
     }
 
 }

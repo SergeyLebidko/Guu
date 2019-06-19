@@ -15,7 +15,7 @@ public enum ReservedWords {
         this.command = command;
     }
 
-    public void execute(String line, Context context) {
+    public void execute(String line, Context context) throws Exception{
         command.execute(line, context);
     }
 

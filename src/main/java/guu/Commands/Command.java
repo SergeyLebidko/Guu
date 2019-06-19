@@ -4,6 +4,6 @@ import guu.Context;
 
 public interface Command {
 
-    void execute(String line, Context context);
+    void execute(String line, Context context) throws Exception;
 
 }
