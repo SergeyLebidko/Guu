@@ -37,7 +37,7 @@ public class Utils {
                         throw new Exception("Имя процедуры " + name + " дублируется. Строка: " + numLine);
                     }
                 } else {
-                    throw new Exception("Недопустмое имя процедуры:" + name + " Строка: " + numLine);
+                    throw new Exception("Недопустмое имя процедуры: " + name + " Строка: " + numLine);
                 }
             }
         }

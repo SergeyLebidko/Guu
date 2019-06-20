@@ -33,17 +33,19 @@ public class Executor {
     }
 
     public void start(String codeString) {
-        //Очищаем область вывода результатов работы программы
-        outputArea.setText("");
-
         //Подготавливаем контекст
-        prepareContext(codeString);
+        try {
+            prepareContext(codeString);
+        } catch (Exception e) {
+            context.addTextToOutputArea("Ошибка: " + e.getMessage());
+            return;
+        }
 
         //Выполняем вызов функции main
         try {
             executeLine("call main");
         } catch (Exception e) {
-            outputArea.append("Процедура main не найдена...");
+            context.addTextToOutputArea("Процедура main не найдена...");
             return;
         }
 
@@ -51,37 +53,19 @@ public class Executor {
         executeCode();
     }
 
-    private void prepareContext(String codeString) {
+    private void prepareContext(String codeString) throws Exception {
         //Инициализируем текущий контекст выполнения
         context.init();
 
         //Разбиваем код на отдельные строки
         ArrayList<String> codeLines = Utils.getCodeLines(codeString);
 
-        //Первая проверка правильности: код должен содержать хотя бы одну строку
-        boolean findNotEmptyLine = false;
-        for (String line : codeLines) {
-            if (!line.equals("")) {
-                findNotEmptyLine = true;
-                break;
-            }
-        }
-        if (!findNotEmptyLine) {
-            outputArea.append("Текст программы не содержит ни одной строки...");
-            return;
-        }
-
         //Добавляем строки кода в текущий контекст
         context.setCode(codeLines);
 
-        //Получаем имена и адреса всех функций и добавляем их в контекст выполнения
-        try {
-            HashMap<String, Integer> subs = Utils.getSubList(context.getCode());
-            context.setSubs(subs);
-        } catch (Exception e) {
-            outputArea.append(e.getMessage());
-            return;
-        }
+        //Получаем имена и адреса всех функций и добавляем их в контекст
+        HashMap<String, Integer> subs = Utils.getSubList(context.getCode());
+        context.setSubs(subs);
     }
 
     private void executeCode() {
@@ -92,7 +76,7 @@ public class Executor {
 
             //Если стек пуст - программа завершается
             if (context.isEmptyStack()) {
-                outputArea.append("Выполнение завершено...");
+                context.addTextToOutputArea("Выполнение завершено...");
                 break;
             }
 
@@ -114,7 +98,7 @@ public class Executor {
             try {
                 executeLine(line);
             } catch (Exception e) {
-                outputArea.append("Ошибка. Процедура: " + context.getCurrentSubName() + " Строка: " + context.getCurrentPointer() + " " + e.getMessage());
+                context.addTextToOutputArea("Ошибка. Процедура: " + context.getCurrentSubName() + " Строка: " + context.getCurrentPointer() + " " + e.getMessage());
                 break;
             }
         }

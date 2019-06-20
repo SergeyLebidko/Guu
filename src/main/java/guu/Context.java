@@ -28,6 +28,9 @@ public class Context {
         vars.clear();
         stack.clear();
         subs = null;
+        if (outputArea != null) {
+            outputArea.setText("");
+        }
     }
 
     //Метод устанавливает компонент для вывода информации пользователю. Необходим для работы операторов вывода
@@ -36,12 +39,12 @@ public class Context {
     }
 
     //Метод добавляет строку в панель вывода
-    public void addTextToOutputArea(String text){
-        outputArea.append(text+"\n");
+    public void addTextToOutputArea(String text) {
+        outputArea.append(text + "\n");
     }
 
     //Метод добавляет строки кода в текущий контекст
-    public void setCode(ArrayList<String> code){
+    public void setCode(ArrayList<String> code) {
         this.code.addAll(code);
     }
 
@@ -51,12 +54,12 @@ public class Context {
     }
 
     //Метод добавляет значение переменной
-    public void addVarValue(String varName, int value){
+    public void addVarValue(String varName, int value) {
         vars.put(varName, value);
     }
 
     //Метод необходим для получения значение переменной
-    public Integer getVarValue(String varName){
+    public Integer getVarValue(String varName) {
         return vars.get(varName);
     }
 
@@ -66,8 +69,8 @@ public class Context {
     }
 
     //Метод вносит элемент в стек. При этом контролируется размер стека (дабы избежать его переполнения)
-    public void addElementToStack(StackElement element) throws Exception{
-        if (stack.size()==MAX_STACK_SIZE)throw new Exception("Стек переполнен");
+    public void addElementToStack(StackElement element) throws Exception {
+        if (stack.size() == MAX_STACK_SIZE) throw new Exception("Стек переполнен");
         stack.add(element);
     }
 
@@ -77,44 +80,44 @@ public class Context {
     }
 
     //Метод необходим для получения адреса процедуры. Если процедура не найдена - возвращает null
-    public Integer getSubAdress(String subName){
+    public Integer getSubAdress(String subName) {
         return subs.get(subName);
     }
 
     //Метод необходим для проверки, пуст ли стек
-    public boolean isEmptyStack(){
+    public boolean isEmptyStack() {
         return stack.isEmpty();
     }
 
     //Метод необходим для получения следующей по ходу выполнения команды. Если достигнут конец файла или стек пуст - возвращает null
-    public String getNextCodeLine(){
-        if (!isEmptyStack()){
+    public String getNextCodeLine() {
+        if (!isEmptyStack()) {
             StackElement element = stack.peekLast();
             element.shiftPointer();
-            if (element.getPointer()>=code.size())return null;
+            if (element.getPointer() >= code.size()) return null;
             return code.get(element.getPointer());
         }
         return null;
     }
 
     //Метод необходим для удаления последнего элемента из стека
-    public void removeLastStackElement(){
-        if (!isEmptyStack()){
+    public void removeLastStackElement() {
+        if (!isEmptyStack()) {
             stack.pollLast();
         }
     }
 
     //Метод возвращает имя текущей выполняемой процедуры
-    public String getCurrentSubName(){
-        if (!isEmptyStack()){
+    public String getCurrentSubName() {
+        if (!isEmptyStack()) {
             return stack.peekLast().getSubName();
         }
         return "";
     }
 
     //Метод возвращает текущее положение указателя
-    public Integer getCurrentPointer(){
-        if (!isEmptyStack()){
+    public Integer getCurrentPointer() {
+        if (!isEmptyStack()) {
             return stack.peekLast().getPointer();
         }
         return -1;
