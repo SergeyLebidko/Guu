@@ -41,6 +41,16 @@ public class Executor {
             return;
         }
 
+        //Выводим код программы в консоль, помечая каждую строку номером
+        int num = 0;
+        for (String line : context.getCode()) {
+            context.addTextToOutputArea(String.format("%4s", num + "") + ": " + line);
+            num++;
+        }
+        context.addTextToOutputArea("");
+        context.addTextToOutputArea("--------------------");
+        context.addTextToOutputArea("");
+
         //Выполняем вызов функции main
         try {
             executeLine("call main");
