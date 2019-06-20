@@ -55,6 +55,7 @@ public class Executor {
         try {
             executeLine("call main");
         } catch (Exception e) {
+            context.setErrFlag();
             context.addTextToOutputArea("Процедура main не найдена...");
             return;
         }
@@ -108,6 +109,7 @@ public class Executor {
             try {
                 executeLine(line);
             } catch (Exception e) {
+                context.setErrFlag();
                 context.addTextToOutputArea("Ошибка. Процедура: " + context.getCurrentSubName() + " Строка: " + context.getCurrentPointer() + " " + e.getMessage());
                 break;
             }

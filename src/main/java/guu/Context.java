@@ -13,6 +13,7 @@ public class Context {
     private HashMap<String, Integer> vars;            //Массив имен переменных и их значений
     private HashMap<String, Integer> subs;            //Массив имен процедур и их адресов
     private LinkedList<StackElement> stack;           //Стек вызовов процедур
+    private boolean err;                              //Признак возникновения ошибки
 
     private JTextArea outputArea;                     //Панель вывода
 
@@ -28,6 +29,7 @@ public class Context {
         vars.clear();
         stack.clear();
         subs = null;
+        err = false;
         if (outputArea != null) {
             outputArea.setText("");
         }
@@ -121,6 +123,16 @@ public class Context {
             return stack.peekLast().getPointer();
         }
         return -1;
+    }
+
+    //Метод устанавливает признак возникновения ошибки во время выполнения кода или подготовки контекста
+    public void setErrFlag(){
+        err = true;
+    }
+
+    //Метод возвращает true, если во время выполнения были зарегистрированы ошибки
+    public boolean getErrFlag(){
+        return err;
     }
 
 }

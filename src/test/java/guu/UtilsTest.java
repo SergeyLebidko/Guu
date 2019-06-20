@@ -3,6 +3,7 @@ package guu;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -51,12 +52,18 @@ public class UtilsTest {
         }
         int expected = 3;
         int actual = 0;
+        HashMap<String, Integer> subList = new HashMap<>();
         try {
-            actual = Utils.getSubList(code).size();
+            subList = Utils.getSubList(code);
+            actual = subList.size();
         } catch (Exception e) {
             fail("Возникает исключение при работе тестируемого метода с корректными данными. Описание ошибки: " + e.getMessage());
         }
         assertEquals("Проверка поиска процедур не успешна для корректных данных!", expected, actual);
+
+        assertEquals("Метод getSubList не корректно определяет адрес процедуры", new Integer(0), subList.get("main"));
+        assertEquals("Метод getSubList не корректно определяет адрес процедуры", new Integer(5), subList.get("func"));
+        assertEquals("Метод getSubList не корректно определяет адрес процедуры", new Integer(6), subList.get("start"));
 
         //Проверяем код, содержащий ошибки (повторяющиеся имена процедур)
         code.clear();
