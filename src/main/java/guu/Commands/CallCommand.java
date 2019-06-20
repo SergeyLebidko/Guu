@@ -15,11 +15,11 @@ public class CallCommand implements Command {
             throw new Exception("Некорректное имя вызываемой процедуры");
         }
 
-        Integer subAddr = context.getSubs().get(subName);
+        Integer subAddr = context.getSubAdress(subName);
         if (subAddr == null) {
             throw new Exception("Вызываемая процедура не найдена");
         }
-        context.getStack().add(new StackElement(subName, subAddr));
+        context.addElementToStack(new StackElement(subName, subAddr));
     }
 
 }

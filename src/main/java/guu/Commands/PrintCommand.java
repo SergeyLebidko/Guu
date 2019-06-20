@@ -15,12 +15,12 @@ public class PrintCommand implements Command {
             throw new Exception("Недопустимое имя переменной в команде print");
         }
 
-        Integer varValue = context.getVars().get(varName);
+        Integer varValue = context.getVarValue(varName);
         if (varValue == null) {
             throw new Exception("Переменной не присвоено значение");
         }
 
-        context.getOutputArea().append(varName + " = " + varValue + "\n");
+        context.addTextToOutputArea(varName + " = " + varValue);
     }
 
 }

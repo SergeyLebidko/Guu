@@ -43,9 +43,7 @@ public class Executor {
         try {
             executeLine("call main");
         } catch (Exception e) {
-            String errMessage = "Процедура main не найдена...";
-            context.getErr().add(errMessage);
-            outputArea.append(errMessage);
+            outputArea.append("Процедура main не найдена...");
             return;
         }
 
@@ -69,21 +67,18 @@ public class Executor {
             }
         }
         if (!findNotEmptyLine) {
-            String errMessage = "Текст программы не содержит ни одной строки...";
-            context.getErr().add(errMessage);
-            outputArea.append(errMessage);
+            outputArea.append("Текст программы не содержит ни одной строки...");
             return;
         }
 
         //Добавляем строки кода в текущий контекст
-        context.getCode().addAll(codeLines);
+        context.setCode(codeLines);
 
         //Получаем имена и адреса всех функций и добавляем их в контекст выполнения
         try {
             HashMap<String, Integer> subs = Utils.getSubList(context.getCode());
             context.setSubs(subs);
         } catch (Exception e) {
-            context.getErr().add(e.getMessage());
             outputArea.append(e.getMessage());
             return;
         }
@@ -119,9 +114,7 @@ public class Executor {
             try {
                 executeLine(line);
             } catch (Exception e) {
-                String errMessage = "Ошибка. Процедура: " + context.getCurrentSubName() + " Строка: " + context.getCurrentPointer() + " " + e.getMessage();
-                context.getErr().add(errMessage);
-                outputArea.append(errMessage);
+                outputArea.append("Ошибка. Процедура: " + context.getCurrentSubName() + " Строка: " + context.getCurrentPointer() + " " + e.getMessage());
                 break;
             }
         }

@@ -44,7 +44,7 @@ public class SetCommand implements Command {
         }
 
         //Если все проверки прошли успешно - вносим имя и значение переменной в соответсвующий список
-        context.getVars().put(varName, varValue);
+        context.addVarValue(varName, varValue);
     }
 
 }
