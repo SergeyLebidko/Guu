@@ -40,7 +40,7 @@ public class Context {
 
     //Метод добавляет строку в панель вывода
     public void addTextToOutputArea(String text) {
-        outputArea.append(text + "\n");
+        if (outputArea != null) outputArea.append(text + "\n");
     }
 
     //Метод добавляет строки кода в текущий контекст

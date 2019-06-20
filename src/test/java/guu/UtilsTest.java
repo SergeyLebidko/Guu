@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class UtilsTest {
 
     @Test
-    public void checkGetCodeLines(){
+    public void checkGetCodeLines() {
         String[] lines = {
                 "",
                 "",
@@ -23,8 +23,8 @@ public class UtilsTest {
                 " "
         };
         String codeString = "";
-        for (String line: lines){
-            codeString+=line+"\n";
+        for (String line : lines) {
+            codeString += line + "\n";
         }
 
         int expectedLines = lines.length;
@@ -33,9 +33,11 @@ public class UtilsTest {
     }
 
     @Test
-    public void checkGetSubList(){
+    public void checkGetSubList() {
         ArrayList<String> code = new ArrayList<>();
-        String[] codeLines = {
+
+        //Проверяем корректный код
+        String[] codeLines1 = {
                 "sub main",
                 "set x 10",
                 "print x",
@@ -44,6 +46,60 @@ public class UtilsTest {
                 "sub func",
                 "sub start"
         };
+        for (String line : codeLines1) {
+            code.add(line);
+        }
+        int expected = 3;
+        int actual = 0;
+        try {
+            actual = Utils.getSubList(code).size();
+        } catch (Exception e) {
+            fail("Возникает исключение при работе тестируемого метода с корректными данными. Описание ошибки: " + e.getMessage());
+        }
+        assertEquals("Проверка поиска процедур не успешна для корректных данных!", expected, actual);
+
+        //Проверяем код, содержащий ошибки (повторяющиеся имена процедур)
+        code.clear();
+        String[] codeLines2 = {
+                "sub main",
+                "set x 10",
+                "print x",
+                "call func",
+                "",
+                "sub func",
+                "sub func"
+        };
+        for (String line : codeLines2) {
+            code.add(line);
+        }
+        try {
+            Utils.getSubList(code);
+            fail("Тестируемый метод не находит повторяющиеся имена процедур");
+        } catch (Exception e) {
+            assertNotEquals("", e.getMessage());
+        }
+
+        //Проверяем код, содержащий ошибки (не корректные имена процедур)
+        code.clear();
+        String[] codeLines3 = {
+                "sub 0main",
+                "set x 10",
+                "print x",
+                "call func",
+                "",
+                "sub 12",
+                "sub func"
+        };
+        for (String line : codeLines3) {
+            code.add(line);
+        }
+        try {
+            Utils.getSubList(code);
+            fail("Тестируемый метод не находит не корректные имена процедур");
+        } catch (Exception e) {
+            assertNotEquals("", e.getMessage());
+        }
+
     }
 
     @Test
@@ -70,8 +126,8 @@ public class UtilsTest {
                 true,
                 true
         };
-        for (int i=0; i<lines.length;i++){
-            assertEquals("Проверка "+lines[i]+" не успешна!", Utils.checkName(lines[i]), results[i]);
+        for (int i = 0; i < lines.length; i++) {
+            assertEquals("Проверка " + lines[i] + " не успешна!", Utils.checkName(lines[i]), results[i]);
         }
     }
 
