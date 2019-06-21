@@ -43,6 +43,8 @@ public class GUI {
         int yPos = Toolkit.getDefaultToolkit().getScreenSize().height / 2 - FRM_HEIGHT / 2;
         frm.setLocation(xPos, yPos);
 
+        DebugDialog.createDialog(frm);
+
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout(5, 5));
 

@@ -134,10 +134,15 @@ public class Executor {
 
         word.execute(line, context);
 
-        if(debugMode==true){
-            if (word == call){
-                System.out.println("Дебагер включен");
+        if (debugMode == true) {
+
+            if (word == call) {
+                boolean entryToSub = DebugDialog.showDialog();
+                if (!entryToSub) {
+                    context.removeLastStackElement();
+                }
             }
+
         }
     }
 
