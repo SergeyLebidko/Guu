@@ -1,9 +1,7 @@
 package guu;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Context {
 
@@ -53,6 +51,11 @@ public class Context {
     //Метод необходим для доступа к строкам исходного кода
     public ArrayList<String> getCode() {
         return code;
+    }
+
+    //Метод возвращает список всех текущих переменных и их значений
+    public Set<Map.Entry<String, Integer>> getVars(){
+        return vars.entrySet();
     }
 
     //Метод добавляет значение переменной

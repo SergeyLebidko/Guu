@@ -137,7 +137,7 @@ public class Executor {
         if (debugMode == true) {
 
             if (word == call) {
-                boolean entryToSub = DebugDialog.showDialog();
+                boolean entryToSub = DebugDialog.showDialog(context);
                 if (!entryToSub) {
                     context.removeLastStackElement();
                 }
