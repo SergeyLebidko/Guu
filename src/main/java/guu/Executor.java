@@ -5,6 +5,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static guu.ReservedWords.*;
+
 public class Executor {
 
     private static final Font mainFont = new Font("Arial", Font.PLAIN, 18);
@@ -13,6 +15,7 @@ public class Executor {
     private JTextArea outputArea;
 
     private Context context;
+    private boolean debugMode;
 
     public Executor(Context context) {
         this.context = context;
@@ -32,7 +35,9 @@ public class Executor {
         return contentPane;
     }
 
-    public void start(String codeString) {
+    public void start(String codeString, boolean debugMode) {
+        this.debugMode = debugMode;
+
         //Подготавливаем контекст
         try {
             prepareContext(codeString);
@@ -128,6 +133,12 @@ public class Executor {
         }
 
         word.execute(line, context);
+
+        if(debugMode==true){
+            if (word == call){
+                System.out.println("Дебагер включен");
+            }
+        }
     }
 
 }

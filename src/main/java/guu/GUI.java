@@ -20,6 +20,7 @@ public class GUI {
 
     private JFrame frm;
     private JButton startBtn;
+    private JButton debugBtn;
     private JButton stopBtn;
 
     private JPanel workPane;
@@ -51,10 +52,13 @@ public class GUI {
 
         startBtn = new JButton(resources.getImageIcon("start"));
         startBtn.setToolTipText("Запустить");
+        debugBtn=new JButton(resources.getImageIcon("debug"));
+        debugBtn.setToolTipText("Отладка");
         stopBtn = new JButton(resources.getImageIcon("stop"));
         stopBtn.setToolTipText("Остановить");
         stopBtn.setEnabled(false);
         btnPane.add(startBtn);
+        btnPane.add(debugBtn);
         btnPane.add(stopBtn);
 
         workPane = new JPanel();
@@ -91,8 +95,20 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 stopBtn.setEnabled(true);
                 startBtn.setEnabled(false);
+                debugBtn.setEnabled(false);
                 workPaneLayout.show(workPane, RUN_PANE);
-                executor.start(codeArea.getText());
+                executor.start(codeArea.getText(), false);
+            }
+        });
+
+        debugBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                stopBtn.setEnabled(true);
+                startBtn.setEnabled(false);
+                debugBtn.setEnabled(false);
+                workPaneLayout.show(workPane, RUN_PANE);
+                executor.start(codeArea.getText(), true);
             }
         });
 
@@ -101,6 +117,7 @@ public class GUI {
             public void actionPerformed(ActionEvent e) {
                 stopBtn.setEnabled(false);
                 startBtn.setEnabled(true);
+                debugBtn.setEnabled(true);
                 workPaneLayout.show(workPane, EDITOR_PANE);
             }
         });

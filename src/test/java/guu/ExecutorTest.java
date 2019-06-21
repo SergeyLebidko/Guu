@@ -15,7 +15,7 @@ public class ExecutorTest {
         String code = "sub main\n" +
                 "set x 10\n" +
                 "print x";
-        executor.start(code);
+        executor.start(code, false);
         Integer expectedVarValue = 10;
         Integer actualVarValue = context.getVarValue("x");
         assertEquals("Значение переменной вычисляется не корректно", expectedVarValue, actualVarValue);
@@ -27,27 +27,27 @@ public class ExecutorTest {
         code = "sub func\n" +
                 "set x 10\n" +
                 "print x";
-        executor.start(code);
+        executor.start(code, false);
         boolean errFlag = context.getErrFlag();
         assertTrue("Интерпретатор пропускает ошибку отсутствия функции main", errFlag);
 
         code = "sub main\n" +
                 "seet x 10\n" +
                 "print x";
-        executor.start(code);
+        executor.start(code, false);
         errFlag = context.getErrFlag();
         assertTrue("Интерпретатор пропускает ошибку неправильного написания команды", errFlag);
 
         code = "sub main\n" +
                 "set x 10\n" +
                 "print y";
-        executor.start(code);
+        executor.start(code, false);
         errFlag = context.getErrFlag();
         assertTrue("Интерпретатор пропускает ошибку попытки вывести значение не определенной переменной", errFlag);
 
         code = "sub main\n" +
                 "call main";
-        executor.start(code);
+        executor.start(code, false);
         errFlag = context.getErrFlag();
         assertTrue("Интерпретатор пропускает ошибку переполнения стека вызовов процедур", errFlag);
     }

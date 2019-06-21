@@ -11,6 +11,7 @@ public class Resources {
     private static final String[] imageNamesList = {
             "logo",
             "start",
+            "debug",
             "stop"
     };
 
