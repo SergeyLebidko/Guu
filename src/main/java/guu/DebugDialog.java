@@ -23,9 +23,6 @@ public class DebugDialog {
     private static JButton varsBtn;
     private static JButton stackBtn;
 
-    private static JDialog varsDialog;
-    private static JDialog stackDialog;
-
     public static void createDialog(JFrame owner) {
         //Создаем диалог запроса входа в процедуру
         dialog = new JDialog(owner, true);
